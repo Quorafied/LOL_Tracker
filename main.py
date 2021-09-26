@@ -27,27 +27,27 @@ layout = [
     ],
     [
         [
-            [gui.Text("Top", click_submits=True, key="-topCD-")],
+            [gui.Text("Top")],
             [gui.Text(text="", key="-topSlot1-"), gui.Text("", key="-topSlot2-")],
             [gui.Text(" ")] # Used for Space
         ],
         [
-            [gui.Text("Jng", click_submits=True, key="-jngCD-")],
+            [gui.Text("Jng")],
             [gui.Text("", key="-jngSlot1-"), gui.Text("", key="-jngSlot2-",)],
             [gui.Text(" ")] # Used for Space
         ],
         [
-            [gui.Text("Mid", click_submits=True, key="-midCD-")],
+            [gui.Text("Mid")],
             [gui.Text("", key="-midSlot1-"), gui.Text("", key="-midSlot2-")],
             [gui.Text(" ")] # Used for Space
         ],
         [
-            [gui.Text("Adc", click_submits=True, key="-adcCD-")],
+            [gui.Text("Adc")],
             [gui.Text("", key="-adcSlot1-"), gui.Text("", key="-adcSlot2-")],
             [gui.Text(" ")] # Used for Space
         ],
         [
-            [gui.Text("Support", click_submits=True, key="-suppCD-")],
+            [gui.Text("Support")],
             [gui.Text("", key="-suppSlot1-"), gui.Text("", key="-suppSlot2-")],
             [gui.Text(" ")] # Used for Space
         ],
