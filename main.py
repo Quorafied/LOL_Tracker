@@ -66,15 +66,14 @@ window = gui.Window("LOL_Tracker",
                     default_element_size=100,
                     size=(800, 800))
 
-# Variables
-topTimer = False
-jngTimer = False
-midTimer = False
-adcTimer = False
-suppTimer = False
+TopLaner = Lane("top")
+Jungler = Lane("jng")
+MidLaner = Lane("mid")
+AdcLaner = Lane("adc")
+Support = Lane("supp")
 
-# Time in seconds
-Flash_Time = 5
+# Time in seconds of Spells
+Flash_Time = 300
 Heal_Time = 180
 Exhaust_Time = 210
 Ignite_Time = 180
@@ -82,51 +81,29 @@ Barrier_Time = 180
 Teleport_Time = 315
 Cleanse_Time = 210
 
-
-topSlot1_start_time = 0 # start
-topSlot1_current_time = 0 # current
-topSlot1_time_left = 0
-topSlot2_start_time = 0 # start
-topSlot2_current_time = 0 # current
-topSlot2_time_left = 0
-
-jngSlot1_start_time = 0 # start
-jngSlot1_current_time = 0 # current
-jngSlot1_time_left = 0
-jngSlot2_start_time = 0 # start
-jngSlot2_current_time = 0 # current
-jngSlot2_time_left = 0
-
-midSlot1_start_time = 0 # start
-midSlot1_current_time = 0 # current
-midSlot1_time_left = 0
-midSlot2_start_time = 0 # start
-midSlot2_current_time = 0 # current
-midSlot2_time_left = 0
-
-adcSlot1_start_time = 0 # start
-adcSlot1_current_time = 0 # current
-adcSlot1_time_left = 0
-adcSlot2_start_time = 0 # start
-adcSlot2_current_time = 0 # current
-adcSlot2_time_left = 0
-
-suppSlot1_start_time = 0 # start
-suppSlot1_current_time = 0 # current
-suppSlot1_time_left = 0
-suppSlot2_start_time = 0 # start
-suppSlot2_current_time = 0 # current
-suppSlot2_time_left = 0
-
-topSlot1 = 0
-topSlot1_name = ""
-topSlot2 = 0
-topSlot2_name = ""
+global selectedSpell_time
+global selectedSpell
 selectedSpell_time = 0
 selectedSpell = ""
 
-#selectedTop, selectedJng, selectedMid, selectedAdc, selectedSupp = False, False, False, False, False
-#selections = [selectedTop, selectedJng, selectedMid, selectedAdc, selectedSupp]
+def startTimer(obj, selSpell_time, selSpell):
+    if obj.Slot1 == "":
+        obj.setSlot1Time(selSpell_time)
+        obj.setSlot1_timeLeft(selSpell_time)
+        obj.setSlot1(selSpell)
+        obj.setSlot1_startTime(time.time()) # start
+        obj.setTimer(True)  
+    elif obj.Slot2 == "":
+        obj.setSlot2Time(selSpell_time) # Spell time.
+        obj.setSlot2_timeLeft(selSpell_time)
+        obj.setSlot2(selSpell)
+        obj.setSlot2_startTime(time.time()) # start
+        obj.setTimer(True)
+    else:
+        selSpell_time = 0
+        selSpell = ""
+        print("no")
+    return selSpell_time, selSpell
 
 # Events and Calls
 while True:
@@ -134,92 +111,74 @@ while True:
     event, values = window.Read(timeout=100)
 
     if event in (gui.WIN_CLOSED, "EXIT"):
-            break
+        break
 
-    if topTimer:
-        topSlot1_time_left, topSlot2_time_left = UpdateCountdown(topSlot1_current_time, topSlot2_current_time, topSlot1_time_left, 
-                                                                    topSlot2_time_left, topSlot1_start_time, topSlot2_start_time, "top", window, topSlot1, topSlot2, topSlot1_name, topSlot2_name)
-    if jngTimer:
-        topSlot1_time_left, topSlot2_time_left = UpdateCountdown(jngSlot1_current_time, jngSlot2_current_time, jngSlot1_time_left, 
-                                                            jngSlot2_time_left, jngSlot1_start_time, jngSlot2_start_time, "jng", window, Flash_Time, Heal_Time)
-    if midTimer:
-        topSlot1_time_left, topSlot2_time_left = UpdateCountdown(midSlot1_current_time, midSlot2_current_time, midSlot1_time_left, 
-                                                            midSlot2_time_left, midSlot1_start_time, midSlot2_start_time, "mid", window, Flash_Time, Heal_Time)                                                          
-    if adcTimer:
-        topSlot1_time_left, topSlot2_time_left = UpdateCountdown(adcSlot1_current_time, adcSlot2_current_time, adcSlot1_time_left, 
-                                                            adcSlot2_time_left, adcSlot1_start_time, adcSlot2_start_time, "adc", window, Flash_Time, Heal_Time)                                                          
-    if suppTimer:
-        topSlot1_time_left, topSlot2_time_left = UpdateCountdown(suppSlot1_current_time, suppSlot2_current_time, suppSlot1_time_left, 
-                                                            suppSlot2_time_left, suppSlot1_start_time, suppSlot2_start_time, "supp", window, Flash_Time, Heal_Time)                                             
+    # Timers and Countdowns
+    if TopLaner.Timer:
+        TopLaner.Slot1_timeLeft, TopLaner.Slot2_timeLeft = UpdateCountdown(TopLaner, window)
+    if Jungler.Timer:
+        Jungler.Slot1_timeLeft, Jungler.Slot2_timeLeft = UpdateCountdown(Jungler, window)
+    if MidLaner.Timer:
+        MidLaner.Slot1_timeLeft, MidLaner.Slot2_timeLeft = UpdateCountdown(MidLaner, window)                                                       
+    if AdcLaner.Timer:
+        AdcLaner.Slot1_timeLeft, AdcLaner.Slot2_timeLeft = UpdateCountdown(AdcLaner, window)                                                       
+    if Support.Timer:
+        Support.Slot1_timeLeft, Support.Slot2_timeLeft = UpdateCountdown(Support, window)                                            
 
+
+    # Selection events
     if event == "-selectTop-":
         selected = "Top"
-        print(values["-topSlot1-"])
-
-        if window["-topSlot1-"].get() == "":
-            topSlot1 = selectedSpell_time
-            topSlot1_name = selectedSpell
-            topSlot1_start_time = time.time() # start
-            topTimer = True            
-        elif window["-topSlot2-"].get() == "":
-            topSlot2 = selectedSpell_time
-            topSlot2_name = selectedSpell
-            topSlot2_start_time = time.time() # start
-            topTimer = True
-        else:
-            selectedSpell_time = 0
-            selectedSpell = ""
-            print("no")
+        selectedSpell_time, selectedSpell = startTimer(TopLaner, selectedSpell_time, selectedSpell)
     
+    if event == "-selectJng-":
+        selected = "Jng"
+        selectedSpell_time, selectedSpell = startTimer(Jungler, selectedSpell_time, selectedSpell)
+    
+    if event == "-selectMid-":
+        selected = "Mid"
+        selectedSpell_time, selectedSpell = startTimer(MidLaner, selectedSpell_time, selectedSpell)
+
+    if event == "-selectAdc-":
+        selected = "Adc"
+        selectedSpell_time, selectedSpell = startTimer(AdcLaner, selectedSpell_time, selectedSpell)
+    
+    if event == "-selectSupp-":
+        selected = "Supp"
+        selectedSpell_time, selectedSpell = startTimer(Support, selectedSpell_time, selectedSpell)
+        
     if event == "-Flash-":
         selectedSpell_time = Flash_Time
         selectedSpell = "Flash"
         print(selectedSpell)
-        
-        #if window["-topSlot1-"] == "" and window["-topSlot2-"] != "Flash: ":
-        #    topSlot1 = Flash_Time
-        #elif window["-topSlot2-"] == "" and window["-topSlot1-"] != "Flash: ":
-        #    topSlot2 = Flash_Time
-        #else:
-        #    selectedTop = False
-        #    print("Either Flash is present or incorrect Spell.")
-        #pass
     
-        
+    if event == "-Heal-":
+        selectedSpell_time = Heal_Time
+        selectedSpell = "Heal"
+        print(selectedSpell)
+
+    if event == "-Exhaust-":
+        selectedSpell_time = Exhaust_Time
+        selectedSpell = "Exhaust"
+        print(selectedSpell)
     
-    if event == "-topCD-":
-        topSlot1_start_time = time.time() # start
-        topSlot2_start_time = time.time() # start
-        topTimer = True
-
-    if event == "-jngCD-":
-        jngSlot1_start_time = time.time() # start
-        jngSlot2_start_time = time.time() # start
-        jngTimer = True
+    if event == "-Ignite-":
+        selectedSpell_time = Ignite_Time
+        selectedSpell = "Ignite"
+        print(selectedSpell)
     
-    if event == "-midCD-":
-        midSlot1_start_time = time.time() # start
-        midSlot2_start_time = time.time() # start
-        midTimer = True
+    if event == "-Barrier-":
+        selectedSpell_time = Barrier_Time
+        selectedSpell = "Barrier"
+        print(selectedSpell)
 
-    if event == "-adcCD-":
-        adcSlot1_start_time = time.time() # start
-        adcSlot2_start_time = time.time() # start
-        adcTimer = True
+    if event == "-Teleport-":
+        selectedSpell_time = Teleport_Time
+        selectedSpell = "Teleport"
+        print(selectedSpell)
 
-    if event == "-suppCD-":
-        suppSlot1_start_time = time.time() # start
-        suppSlot2_start_time = time.time() # start
-        suppTimer = True
+    if event == "-Cleanse-":
+        selectedSpell_time = Cleanse_Time
+        selectedSpell = "Cleanse"
+        print(selectedSpell)
 
-    
-
-
-# Spells = ["Flash", "Heal", "Exhaust",
-#          "Ignite", "Barrier", "Teleport", "Cleanse"]
-
-#TopLaner = Top()
-#Jungler = Jungle()
-#MiddleLaner = Middle()
-#BotLaner = Adc()
-#SupportLaner = Support()
