@@ -2,6 +2,7 @@ import PySimpleGUI as gui
 from Roles import *
 from timer import *
 import time
+import imageRecognition
 
 # Defining the layout of the window
 layout = [
@@ -66,6 +67,7 @@ window = gui.Window("LOL_Tracker",
                     default_element_size=100,
                     size=(800, 800))
 
+# Initializing Lane Classes
 TopLaner = Lane("top")
 Jungler = Lane("jng")
 MidLaner = Lane("mid")
@@ -73,7 +75,7 @@ AdcLaner = Lane("adc")
 Support = Lane("supp")
 
 # Time in seconds of Spells
-Flash_Time = 300
+Flash_Time = int(300)
 Heal_Time = 180
 Exhaust_Time = 210
 Ignite_Time = 180
@@ -81,11 +83,13 @@ Barrier_Time = 180
 Teleport_Time = 315
 Cleanse_Time = 210
 
+# Define variables that act like temporary variables.
 global selectedSpell_time
 global selectedSpell
 selectedSpell_time = 0
 selectedSpell = ""
 
+# Defining a function to start a Timer for an object pressumed to be a Lane object.
 def startTimer(obj, selSpell_time, selSpell):
     if obj.Slot1 == "":
         obj.setSlot1Time(selSpell_time)
@@ -104,6 +108,9 @@ def startTimer(obj, selSpell_time, selSpell):
         selSpell = ""
         print("no")
     return selSpell_time, selSpell
+
+# Initializing the Image Recognition Bot.
+SpellChecker = imageRecognition.imgRecognize()
 
 # Events and Calls
 while True:
