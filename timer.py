@@ -2,7 +2,7 @@ import time
 from threading import Timer
 from Roles import *
 
-#def UpdateCountdown(currentSlot1, currentSlot2, timeleftSlot1, timeleftSlot2, startSlot1, startSlot2, lane, window, tSlot1, tSlot2, nSlot1, nSlot2, lanerObj):
+
 def UpdateCountdown(lanerObj, window):
     # Get current time
     lanerObj.Slot1_currentTime = time.time()
@@ -15,7 +15,6 @@ def UpdateCountdown(lanerObj, window):
                                                             ) + str(int(lanerObj.Slot1_timeLeft)))
     else:
         window["-{}Slot1-".format(lanerObj.name)].update("")
-        lanerObj.Slot1 = ""
         lanerObj.Slot1Time = 0
     
     if lanerObj.Slot2_timeLeft > 0:
@@ -24,6 +23,5 @@ def UpdateCountdown(lanerObj, window):
                                                             ) + str(int(lanerObj.Slot2_timeLeft)))
     else:
         window["-{}Slot2-".format(lanerObj.name)].update("")
-        lanerObj.Slot2 = ""
 
     return lanerObj.Slot1_timeLeft, lanerObj.Slot2_timeLeft

@@ -1,3 +1,4 @@
+from tkinter import Toplevel
 import PySimpleGUI as gui
 from Roles import *
 from timer import *
@@ -16,13 +17,13 @@ layout = [
         ],
         [gui.Text("")], # Used for Space
         [
-            gui.Text("Flash", click_submits=True, key="-Flash-"),
-            gui.Text("Heal", click_submits=True, key="-Heal-"),
-            gui.Text("Exhaust", click_submits=True, key="-Exhaust-"),
-            gui.Text("Ignite", click_submits=True, key="-Ignite-"),
-            gui.Text("Barrier", click_submits=True, key="-Barrier-"),
-            gui.Text("Teleport", click_submits=True, key="-Teleport-"),
-            gui.Text("Cleanse", click_submits=True, key="-Cleanse-"),
+            gui.Text("Flash", click_submits=True, key="-Flash-", visible=False),
+            gui.Text("Heal", click_submits=True, key="-Heal-", visible=False),
+            gui.Text("Exhaust", click_submits=True, key="-Exhaust-", visible=False),
+            gui.Text("Ignite", click_submits=True, key="-Ignite-", visible=False),
+            gui.Text("Barrier", click_submits=True, key="-Barrier-", visible=False),
+            gui.Text("Teleport", click_submits=True, key="-Teleport-", visible=False),
+            gui.Text("Cleanse", click_submits=True, key="-Cleanse-", visible=False),
         ],
         [gui.Text("")] # Used for Space
     ],
@@ -68,11 +69,26 @@ window = gui.Window("LOL_Tracker",
                     size=(800, 800))
 
 # Initializing Lane Classes
+# +28 was added because the Slot1 is 28 pixels higher than Slot2
 TopLaner = Lane("top")
+TopLaner.Slot1Region = (1001, 320+28, 25, 25)
+TopLaner.Slot2Region = (1001, 320, 25 ,25)
+
 Jungler = Lane("jng")
+Jungler.Slot1Region = (1001, 396+28, 25, 25)
+Jungler.Slot2Region = (1001, 396, 25 ,25)
+
 MidLaner = Lane("mid")
+MidLaner.Slot1Region = (1001, 472+28, 25, 25)
+MidLaner.Slot2Region = (1001, 472, 25 ,25)
+
 AdcLaner = Lane("adc")
+AdcLaner.Slot1Region = (1001, 548+28, 25, 25)
+AdcLaner.Slot2Region = (1001, 548, 25 ,25)
+
 Support = Lane("supp")
+Support.Slot1Region = (1001, 624+28, 25, 25)
+Support.Slot2Region = (1001, 624, 25 ,25)
 
 # Time in seconds of Spells
 Flash_Time = int(300)
@@ -83,6 +99,8 @@ Barrier_Time = 180
 Teleport_Time = 315
 Cleanse_Time = 210
 
+activeSpells = []
+
 # Define variables that act like temporary variables.
 global selectedSpell_time
 global selectedSpell
@@ -91,26 +109,27 @@ selectedSpell = ""
 
 # Defining a function to start a Timer for an object pressumed to be a Lane object.
 def startTimer(obj, selSpell_time, selSpell):
-    if obj.Slot1 == "":
+    if obj.Slot1 == selectedSpell:
         obj.setSlot1Time(selSpell_time)
         obj.setSlot1_timeLeft(selSpell_time)
-        obj.setSlot1(selSpell)
         obj.setSlot1_startTime(time.time()) # start
         obj.setTimer(True)  
-    elif obj.Slot2 == "":
+    elif obj.Slot2 == selectedSpell:
         obj.setSlot2Time(selSpell_time) # Spell time.
         obj.setSlot2_timeLeft(selSpell_time)
-        obj.setSlot2(selSpell)
         obj.setSlot2_startTime(time.time()) # start
         obj.setTimer(True)
-    else:
-        selSpell_time = 0
-        selSpell = ""
-        print("no")
+
+    selSpell_time = 0
+    selSpell = ""
+    print("no")
+
     return selSpell_time, selSpell
 
 # Initializing the Image Recognition Bot.
+time.sleep(5)  
 SpellChecker = imageRecognition.imgRecognize()
+SpellChecker.checkLaneSlots([TopLaner, Jungler, MidLaner, AdcLaner, Support])
 
 # Events and Calls
 while True:
@@ -135,57 +154,113 @@ while True:
 
     # Selection events
     if event == "-selectTop-":
-        selected = "Top"
-        selectedSpell_time, selectedSpell = startTimer(TopLaner, selectedSpell_time, selectedSpell)
+        selected = TopLaner        
+        for i in (selected.Slot1, selected.Slot2):
+            activeSpells.append(i)
+        for j in activeSpells:
+            window["-{}-".format(j)].update(visible=True)
     
     if event == "-selectJng-":
-        selected = "Jng"
-        selectedSpell_time, selectedSpell = startTimer(Jungler, selectedSpell_time, selectedSpell)
-    
+        selected = Jungler
+        for i in (selected.Slot1, selected.Slot2):
+            activeSpells.append(i)
+        for j in activeSpells:
+            window["-{}-".format(j)].update(visible=True)
+
     if event == "-selectMid-":
-        selected = "Mid"
-        selectedSpell_time, selectedSpell = startTimer(MidLaner, selectedSpell_time, selectedSpell)
+        selected = MidLaner
+        for i in (selected.Slot1, selected.Slot2):
+            activeSpells.append(i)
+        for j in activeSpells:
+            window["-{}-".format(j)].update(visible=True)
 
     if event == "-selectAdc-":
-        selected = "Adc"
-        selectedSpell_time, selectedSpell = startTimer(AdcLaner, selectedSpell_time, selectedSpell)
-    
+        selected = AdcLaner
+        for i in (selected.Slot1, selected.Slot2):
+            activeSpells.append(i)
+        for j in activeSpells:
+            window["-{}-".format(j)].update(visible=True)
+            
     if event == "-selectSupp-":
-        selected = "Supp"
-        selectedSpell_time, selectedSpell = startTimer(Support, selectedSpell_time, selectedSpell)
-        
+        selected = Support
+        for i in (selected.Slot1, selected.Slot2):
+            activeSpells.append(i)
+        for j in activeSpells:
+            window["-{}-".format(j)].update(visible=True)  
+
+    # Spells Events
     if event == "-Flash-":
         selectedSpell_time = Flash_Time
         selectedSpell = "Flash"
-        print(selectedSpell)
+
+        for j in activeSpells:
+            window["-{}-".format(j)].update(visible=False)
+        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
+
+        selected = None
+        activeSpells = []
+
     
     if event == "-Heal-":
         selectedSpell_time = Heal_Time
         selectedSpell = "Heal"
-        print(selectedSpell)
+        
+        for j in activeSpells:
+            window["-{}-".format(j)].update(visible=False)
+        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
 
     if event == "-Exhaust-":
         selectedSpell_time = Exhaust_Time
         selectedSpell = "Exhaust"
-        print(selectedSpell)
+        
+        for j in activeSpells:
+            window["-{}-".format(j)].update(visible=False)
+        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
+        
+        selected = None
+        activeSpells = []
     
     if event == "-Ignite-":
         selectedSpell_time = Ignite_Time
         selectedSpell = "Ignite"
-        print(selectedSpell)
+        
+        for j in activeSpells:
+            window["-{}-".format(j)].update(visible=False)
+        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
+                
+        selected = None
+        activeSpells = []
     
     if event == "-Barrier-":
         selectedSpell_time = Barrier_Time
         selectedSpell = "Barrier"
-        print(selectedSpell)
+        
+        for j in activeSpells:
+            window["-{}-".format(j)].update(visible=False)
+        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
+                
+        selected = None
+        activeSpells = []
 
     if event == "-Teleport-":
         selectedSpell_time = Teleport_Time
         selectedSpell = "Teleport"
-        print(selectedSpell)
+        
+        for j in activeSpells:
+            window["-{}-".format(j)].update(visible=False)
+        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
+                
+        selected = None
+        activeSpells = []
 
     if event == "-Cleanse-":
         selectedSpell_time = Cleanse_Time
         selectedSpell = "Cleanse"
-        print(selectedSpell)
+        
+        for j in activeSpells:
+            window["-{}-".format(j)].update(visible=False)
+        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
+                
+        selected = None
+        activeSpells = []
 
