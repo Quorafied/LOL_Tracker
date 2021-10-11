@@ -109,30 +109,39 @@ selectedSpell = ""
 
 # Defining a function to start a Timer for an object pressumed to be a Lane object.
 def startTimer(obj, selSpell_time, selSpell):
+    # Starts a countdown for Slot1 if the selected Spell is the same as Slot1
     if obj.Slot1 == selectedSpell:
         obj.setSlot1Time(selSpell_time)
         obj.setSlot1_timeLeft(selSpell_time)
         obj.setSlot1_startTime(time.time()) # start
         obj.setTimer(True)  
+    
+    # Starts a countdown for Slot2 if the selected Spell is the same as Slot2
     elif obj.Slot2 == selectedSpell:
         obj.setSlot2Time(selSpell_time) # Spell time.
         obj.setSlot2_timeLeft(selSpell_time)
         obj.setSlot2_startTime(time.time()) # start
         obj.setTimer(True)
 
+    # Deselect any Spell to allow a next selection.
     selSpell_time = 0
     selSpell = ""
-    print("no")
 
     return selSpell_time, selSpell
 
+# Selected Lane has 2 Slots with Spells Recognized, places them into activeSpells and enables text for selection.
 def laneSelection(selected, activeSpells):
+    # Append Slots to activeSpells list.
     for i in (selected.Slot1, selected.Slot2):
         activeSpells.append(i)
+    
+    # Enable text for spells in activeSpells.
     for j in activeSpells:
         window["-{}-".format(j)].update(visible=True)
+
     return activeSpells
 
+# Disables spell Text for further selection and return Spell and Spell Time to disable globally. 
 def clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell):
     for j in activeSpells:
         window["-{}-".format(j)].update(visible=False)
@@ -165,9 +174,10 @@ while True:
         Support.Slot1_timeLeft, Support.Slot2_timeLeft = UpdateCountdown(Support, window)                                            
 
 
-    # Selection events
+    # Selection events        
+    # # Enables spell Text based on selected lane.
     if event == "-selectTop-":
-        selected = TopLaner        
+        selected = TopLaner
         activeSpells = laneSelection(selected, activeSpells)
     
     if event == "-selectJng-":
@@ -194,6 +204,8 @@ while True:
         selectedSpell_time = Flash_Time
         selectedSpell = "Flash"
         selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
+        
+        # Defaults selections and Empties activeSpells list
         selected = None
         activeSpells = []
 
@@ -202,6 +214,8 @@ while True:
         selectedSpell_time = Heal_Time
         selectedSpell = "Heal"
         selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
+
+        # Defaults selections and Empties activeSpells list
         selected = None
         activeSpells = []
 
@@ -209,6 +223,8 @@ while True:
         selectedSpell_time = Exhaust_Time
         selectedSpell = "Exhaust"
         selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
+
+        # Defaults selections and Empties activeSpells list
         selected = None
         activeSpells = []
     
@@ -216,6 +232,8 @@ while True:
         selectedSpell_time = Ignite_Time
         selectedSpell = "Ignite"
         selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
+
+        # Defaults selections and Empties activeSpells list
         selected = None
         activeSpells = []
     
@@ -223,6 +241,8 @@ while True:
         selectedSpell_time = Barrier_Time
         selectedSpell = "Barrier"
         selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
+
+        # Defaults selections and Empties activeSpells list
         selected = None
         activeSpells = []
 
@@ -230,6 +250,8 @@ while True:
         selectedSpell_time = Teleport_Time
         selectedSpell = "Teleport"
         selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
+
+        # Defaults selections and Empties activeSpells list
         selected = None
         activeSpells = []
 
@@ -237,6 +259,8 @@ while True:
         selectedSpell_time = Cleanse_Time
         selectedSpell = "Cleanse"
         selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
+
+        # Defaults selections and Empties activeSpells list
         selected = None
         activeSpells = []
 
