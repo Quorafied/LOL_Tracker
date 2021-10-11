@@ -126,6 +126,19 @@ def startTimer(obj, selSpell_time, selSpell):
 
     return selSpell_time, selSpell
 
+def laneSelection(selected, activeSpells):
+    for i in (selected.Slot1, selected.Slot2):
+        activeSpells.append(i)
+    for j in activeSpells:
+        window["-{}-".format(j)].update(visible=True)
+    return activeSpells
+
+def clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell):
+    for j in activeSpells:
+        window["-{}-".format(j)].update(visible=False)
+        x, y = startTimer(selected, selectedSpell_time, selectedSpell)
+    return x, y
+
 # Initializing the Image Recognition Bot.
 time.sleep(5)  
 SpellChecker = imageRecognition.imgRecognize()
@@ -155,48 +168,32 @@ while True:
     # Selection events
     if event == "-selectTop-":
         selected = TopLaner        
-        for i in (selected.Slot1, selected.Slot2):
-            activeSpells.append(i)
-        for j in activeSpells:
-            window["-{}-".format(j)].update(visible=True)
+        activeSpells = laneSelection(selected, activeSpells)
     
     if event == "-selectJng-":
         selected = Jungler
-        for i in (selected.Slot1, selected.Slot2):
-            activeSpells.append(i)
-        for j in activeSpells:
-            window["-{}-".format(j)].update(visible=True)
+        activeSpells = laneSelection(selected, activeSpells)
 
     if event == "-selectMid-":
         selected = MidLaner
-        for i in (selected.Slot1, selected.Slot2):
-            activeSpells.append(i)
-        for j in activeSpells:
-            window["-{}-".format(j)].update(visible=True)
+        activeSpells = laneSelection(selected, activeSpells)
 
     if event == "-selectAdc-":
         selected = AdcLaner
-        for i in (selected.Slot1, selected.Slot2):
-            activeSpells.append(i)
-        for j in activeSpells:
-            window["-{}-".format(j)].update(visible=True)
+        activeSpells = laneSelection(selected, activeSpells)
             
     if event == "-selectSupp-":
         selected = Support
-        for i in (selected.Slot1, selected.Slot2):
-            activeSpells.append(i)
-        for j in activeSpells:
-            window["-{}-".format(j)].update(visible=True)  
+        activeSpells = laneSelection(selected, activeSpells)
+
+        
+
 
     # Spells Events
     if event == "-Flash-":
         selectedSpell_time = Flash_Time
         selectedSpell = "Flash"
-
-        for j in activeSpells:
-            window["-{}-".format(j)].update(visible=False)
-        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
-
+        selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
         selected = None
         activeSpells = []
 
@@ -204,63 +201,42 @@ while True:
     if event == "-Heal-":
         selectedSpell_time = Heal_Time
         selectedSpell = "Heal"
-        
-        for j in activeSpells:
-            window["-{}-".format(j)].update(visible=False)
-        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
+        selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
+        selected = None
+        activeSpells = []
 
     if event == "-Exhaust-":
         selectedSpell_time = Exhaust_Time
         selectedSpell = "Exhaust"
-        
-        for j in activeSpells:
-            window["-{}-".format(j)].update(visible=False)
-        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
-        
+        selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
         selected = None
         activeSpells = []
     
     if event == "-Ignite-":
         selectedSpell_time = Ignite_Time
         selectedSpell = "Ignite"
-        
-        for j in activeSpells:
-            window["-{}-".format(j)].update(visible=False)
-        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
-                
+        selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
         selected = None
         activeSpells = []
     
     if event == "-Barrier-":
         selectedSpell_time = Barrier_Time
         selectedSpell = "Barrier"
-        
-        for j in activeSpells:
-            window["-{}-".format(j)].update(visible=False)
-        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
-                
+        selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
         selected = None
         activeSpells = []
 
     if event == "-Teleport-":
         selectedSpell_time = Teleport_Time
         selectedSpell = "Teleport"
-        
-        for j in activeSpells:
-            window["-{}-".format(j)].update(visible=False)
-        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
-                
+        selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
         selected = None
         activeSpells = []
 
     if event == "-Cleanse-":
         selectedSpell_time = Cleanse_Time
         selectedSpell = "Cleanse"
-        
-        for j in activeSpells:
-            window["-{}-".format(j)].update(visible=False)
-        selectedSpell_time, selectedSpell = startTimer(selected, selectedSpell_time, selectedSpell)
-                
+        selectedSpell_time, selectedSpell = clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell)
         selected = None
         activeSpells = []
 
