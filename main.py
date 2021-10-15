@@ -53,6 +53,11 @@ layout = [
             [gui.Text("", key="-suppSlot1-"), gui.Text("", key="-suppSlot2-")],
             [gui.Text(" ")] # Used for Space
         ],
+    ],
+    [
+        [gui.Text("I am on this side:")],
+        [gui.Button("Blue Side", key="-blue-"), gui.Button("Red Side", key="-red-")],
+        [gui.Button("Check Spells", key="-checkSpells-", size=(14, 3))]
     ]
 ]
 
@@ -69,26 +74,30 @@ window = gui.Window("LOL_Tracker",
                     size=(800, 800))
 
 # Initializing Lane Classes
-# +28 was added because the Slot1 is 28 pixels higher than Slot2
 TopLaner = Lane("top")
-TopLaner.Slot1Region = (1001, 320+28, 25, 25)
-TopLaner.Slot2Region = (1001, 320, 25 ,25)
-
-Jungler = Lane("jng")
-Jungler.Slot1Region = (1001, 396+28, 25, 25)
-Jungler.Slot2Region = (1001, 396, 25 ,25)
-
+Jungler = Lane("jng") 
 MidLaner = Lane("mid")
-MidLaner.Slot1Region = (1001, 472+28, 25, 25)
-MidLaner.Slot2Region = (1001, 472, 25 ,25)
-
 AdcLaner = Lane("adc")
-AdcLaner.Slot1Region = (1001, 548+28, 25, 25)
-AdcLaner.Slot2Region = (1001, 548, 25 ,25)
-
 Support = Lane("supp")
-Support.Slot1Region = (1001, 624+28, 25, 25)
-Support.Slot2Region = (1001, 624, 25 ,25)
+
+# +28 was added because the Slot1 is 28 pixels higher than Slot2
+blueSideX = 1001
+redSideX = 427
+def setRegions(TopLaner, Jungler, MidLaner, AdcLaner, Support, x):
+    TopLaner.Slot1Region = (x, 320+28, 25, 25)
+    TopLaner.Slot2Region = (x, 320, 25 ,25)
+
+    Jungler.Slot1Region = (x, 396+28, 25, 25)
+    Jungler.Slot2Region = (x, 396, 25 ,25)
+
+    MidLaner.Slot1Region = (x, 472+28, 25, 25)
+    MidLaner.Slot2Region = (x, 472, 25 ,25)
+
+    AdcLaner.Slot1Region = (x, 548+28, 25, 25)
+    AdcLaner.Slot2Region = (x, 548, 25 ,25)
+
+    Support.Slot1Region = (x, 624+28, 25, 25)
+    Support.Slot2Region = (x, 624, 25 ,25)
 
 # Time in seconds of Spells
 Flash_Time = int(300)
@@ -149,9 +158,7 @@ def clearActiveSpells(activeSpells, selectedSpell_time, selectedSpell):
     return x, y
 
 # Initializing the Image Recognition Bot.
-time.sleep(5)  
 SpellChecker = imageRecognition.imgRecognize()
-SpellChecker.checkLaneSlots([TopLaner, Jungler, MidLaner, AdcLaner, Support])
 
 # Events and Calls
 while True:
@@ -263,4 +270,17 @@ while True:
         # Defaults selections and Empties activeSpells list
         selected = None
         activeSpells = []
+
+    
+    # Team selection
+    if event == "-blue-":
+        setRegions(TopLaner, Jungler, MidLaner, AdcLaner, Support, blueSideX)
+    elif event == "-red-":
+        setRegions(TopLaner, Jungler, MidLaner, AdcLaner, Support, redSideX)
+
+    # Check Spells
+    if event == "-checkSpells-":
+        print("Checking spells in 3 seconds!")
+        time.sleep(3)
+        SpellChecker.checkLaneSlots([TopLaner, Jungler, MidLaner, AdcLaner, Support])
 
