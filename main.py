@@ -140,6 +140,10 @@ def startTimer(obj, selSpell_time, selSpell):
 
 # Selected Lane has 2 Slots with Spells Recognized, places them into activeSpells and enables text for selection.
 def laneSelection(selected, activeSpells):
+    # Clear activeSpells in case a Laner was already selected.
+    if activeSpells != []:
+        activeSpells = []
+
     # Append Slots to activeSpells list.
     for i in (selected.Slot1, selected.Slot2):
         activeSpells.append(i)
