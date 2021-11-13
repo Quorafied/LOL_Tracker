@@ -44,25 +44,31 @@ class imgRecognize():
   def click(self):
     for i in range(5):
       time.sleep(2)
-      pyautogui.click(427, 320)
+      pyautogui.click(1001, 320)
 
   def checkLaneSlots(self, objects): # Where objs is a list of objects.
     for obj in objects:
       # Check Slot1 of every object.
       if (pyautogui.locateOnScreen("img/{}.png".format(str("Ally_Flashes")), confidence=0.9, region=obj.Slot1Region)):
         obj.Slot1 = "Flash"
+        print("Found Flash Slot1")
       elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Heal")), confidence=0.9, region=obj.Slot1Region)):
         obj.Slot1 = "Heal"
+        print("Found Heal Slot1")
       elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Exhaust")), confidence=0.9, region=obj.Slot1Region)):
         obj.Slot1 = "Exhaust"
+        print("Found Exhaust Slot1")
       elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Ignite")), confidence=0.9, region=obj.Slot1Region)):
         obj.Slot1 = "Ignite"
+        print("Found Ignite Slot1")
       elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Barrier")), confidence=0.9, region=obj.Slot1Region)):
         obj.Slot1 = "Barrier"
+        print("Found Barrier Slot1")
       elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_TP")), confidence=0.9, region=obj.Slot1Region)):
         obj.Slot1 = "Teleport"
+        print("Found Teleport Slot1")
       else:
-        pass
+        print("Did not find spells.")
 
       # Check Slot 2 of every object.
       if (pyautogui.locateOnScreen("img/{}.png".format(str("Ally_Flashes")), confidence=0.9, region=obj.Slot2Region)):
@@ -81,6 +87,6 @@ class imgRecognize():
         pass
 
 
-    if (pyautogui.locateOnScreen("img/{}.png".format(str("Ally_Flashes")), confidence=0.9, region=obj.Slot1Region) and
-    pyautogui.locateOnScreen("img/{}.png".format(str("Ally_Flashes")), confidence=0.9, region=obj.Slot2Region)):
-      return True
+    #if (pyautogui.locateOnScreen("img/{}.png".format(str("Ally_Flashes")), confidence=0.9, region=obj.Slot1Region) and
+    #pyautogui.locateOnScreen("img/{}.png".format(str("Ally_Flashes")), confidence=0.9, region=obj.Slot2Region)):
+    #  return True

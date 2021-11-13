@@ -82,7 +82,7 @@ Support = Lane("supp")
 
 # +28 was added because the Slot1 is 28 pixels higher than Slot2
 blueSideX = 1001
-redSideX = 427
+redSideX = 427 
 def setRegions(TopLaner, Jungler, MidLaner, AdcLaner, Support, x):
     TopLaner.Slot1Region = (x, 320+28, 25, 25)
     TopLaner.Slot2Region = (x, 320, 25 ,25)
@@ -287,4 +287,5 @@ while True:
         print("Checking spells in 3 seconds!")
         time.sleep(3)
         SpellChecker.checkLaneSlots([TopLaner, Jungler, MidLaner, AdcLaner, Support])
+
 

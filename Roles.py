@@ -2,7 +2,7 @@ class Lane():
     def __init__(self, name):
         self.name = str(name)
 
-        self.Slot1 = "Flash"
+        self.Slot1 = ""
         self.Slot1Time = 0
         self.Slot1_timeLeft = 0
         self.Slot1_currentTime = 0
@@ -11,7 +11,7 @@ class Lane():
         self.Slot1Region = ()
         self.Slot2Region = () 
 
-        self.Slot2 = "Heal"
+        self.Slot2 = ""
         self.Slot2Time = 0
         self.Slot2_timeLeft = 0
         self.Slot2_currentTime = 0
