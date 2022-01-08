@@ -49,39 +49,39 @@ class imgRecognize():
   def checkLaneSlots(self, objects): # Where objs is a list of objects.
     for obj in objects:
       # Check Slot1 of every object.
-      if (pyautogui.locateOnScreen("img/{}.png".format(str("Ally_Flashes")), confidence=0.9, region=obj.Slot1Region)):
+      if (pyautogui.locateOnScreen("img/{}.png".format(str("Ally_Flashes")), confidence=0.8, region=obj.Slot1Region)):
         obj.Slot1 = "Flash"
         print("Found Flash Slot1")
-      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Heal")), confidence=0.9, region=obj.Slot1Region)):
+      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Heal")), confidence=0.8, region=obj.Slot1Region)):
         obj.Slot1 = "Heal"
         print("Found Heal Slot1")
-      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Exhaust")), confidence=0.9, region=obj.Slot1Region)):
+      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Exhaust")), confidence=0.8, region=obj.Slot1Region)):
         obj.Slot1 = "Exhaust"
         print("Found Exhaust Slot1")
-      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Ignite")), confidence=0.9, region=obj.Slot1Region)):
+      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Ignite")), confidence=0.8, region=obj.Slot1Region)):
         obj.Slot1 = "Ignite"
         print("Found Ignite Slot1")
-      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Barrier")), confidence=0.9, region=obj.Slot1Region)):
+      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Barrier")), confidence=0.8, region=obj.Slot1Region)):
         obj.Slot1 = "Barrier"
         print("Found Barrier Slot1")
-      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_TP")), confidence=0.9, region=obj.Slot1Region)):
+      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_TP")), confidence=0.8, region=obj.Slot1Region)):
         obj.Slot1 = "Teleport"
         print("Found Teleport Slot1")
       else:
         print("Did not find spells.")
 
       # Check Slot 2 of every object.
-      if (pyautogui.locateOnScreen("img/{}.png".format(str("Ally_Flashes")), confidence=0.9, region=obj.Slot2Region)):
+      if (pyautogui.locateOnScreen("img/{}.png".format(str("Ally_Flashes")), confidence=0.8, region=obj.Slot2Region)):
         obj.Slot2 = "Flash"
-      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Heal")), confidence=0.9, region=obj.Slot2Region)):
+      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Heal")), confidence=0.8, region=obj.Slot2Region)):
         obj.Slot2 = "Heal"
-      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Exhaust")), confidence=0.9, region=obj.Slot2Region)):
+      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Exhaust")), confidence=0.8, region=obj.Slot2Region)):
         obj.Slot2 = "Exhaust"
-      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Ignite")), confidence=0.9, region=obj.Slot2Region)):
+      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Ignite")), confidence=0.8, region=obj.Slot2Region)):
         obj.Slot2 = "Ignite"
-      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Barrier")), confidence=0.9, region=obj.Slot2Region)):
+      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_Barrier")), confidence=0.8, region=obj.Slot2Region)):
         obj.Slot2 = "Barrier"
-      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_TP")), confidence=0.9, region=obj.Slot2Region)):
+      elif (pyautogui.locateOnScreen("img/{}.png".format(str("Enemy_TP")), confidence=0.8, region=obj.Slot2Region)):
         obj.Slot2 = "Teleport"
       else:
         pass
